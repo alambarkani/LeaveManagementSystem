@@ -7,9 +7,8 @@ namespace LeaveManagementSystem.Domain.Entities
 {
     public class LeaveBalance
     {
-        public uint Id { get; set; }
-        public required uint UserId { get; set; }
-        public required User User { get; set; }
+        public Guid Id { get; set; }
+        public required string UserId { get; set; }
         public required ushort Year { get; set;  }
         public required LeaveType LeaveType { get; set; }
         public required ushort Total { get; set; }

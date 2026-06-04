@@ -7,9 +7,8 @@ namespace LeaveManagementSystem.Domain.Entities
 {
     public class LeaveRequest
     {
-        public uint Id { get; set; }
-        public required uint UserId { get; set; }
-        public required User User { get; set; }
+        public Guid Id { get; set; }
+        public required string UserId { get; set; }
         public required LeaveType LeaveType { get; set; }
         [DataType(DataType.Date)]
         public required DateOnly StartDate { get; set; }
@@ -18,8 +17,7 @@ namespace LeaveManagementSystem.Domain.Entities
         [DataType(DataType.MultilineText)]
         public string? Description { get; set; }
         public LeaveStatus Status { get; set; } = LeaveStatus.Pending;
-        public uint? ReviewedById { get; set; }
-        public User? ReviewedBy { get; set; }
+        public string? ReviewedById { get; set; }
         [DataType(DataType.DateTime)]
         public DateTime? ReviewedAt { get; set; }
         [DataType(DataType.Text)]

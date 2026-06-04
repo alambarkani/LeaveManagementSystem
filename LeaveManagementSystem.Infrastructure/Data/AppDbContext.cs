@@ -1,4 +1,6 @@
 ﻿using LeaveManagementSystem.Domain.Entities;
+using LeaveManagementSystem.Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -6,13 +8,12 @@ using System.Text;
 
 namespace LeaveManagementSystem.Infrastructure.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
 
-        public DbSet<User> Users { get; set; }
         public DbSet<LeaveBalance> LeaveBalances { get; set; }
         public DbSet<LeaveRequest> LeaveRequests { get; set; }
 
@@ -21,25 +22,25 @@ namespace LeaveManagementSystem.Infrastructure.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<LeaveBalance>()
-                .HasOne(b => b.User)
+                .HasOne<ApplicationUser>()
                 .WithMany()
                 .HasForeignKey(b => b.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<LeaveRequest>()
-                .HasOne(r => r.User)
+                .HasOne<ApplicationUser>()
                 .WithMany()
                 .HasForeignKey(r => r.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<LeaveRequest>()
-                .HasOne(r => r.ReviewedBy)
+                .HasOne<ApplicationUser>()
                 .WithMany()
                 .HasForeignKey(r => r.ReviewedById)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.Manager)
+            modelBuilder.Entity<ApplicationUser>()
+                .HasOne<ApplicationUser>()
                 .WithMany()
                 .HasForeignKey(u => u.ManagerId)
                 .OnDelete(DeleteBehavior.Restrict);
