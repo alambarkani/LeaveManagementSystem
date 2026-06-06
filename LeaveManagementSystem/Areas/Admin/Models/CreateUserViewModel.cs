@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 
-namespace LeaveManagementSystem.Models
+namespace LeaveManagementSystem.Areas.Admin.Models
 {
     public class CreateUserViewModel
     {
@@ -31,6 +31,6 @@ namespace LeaveManagementSystem.Models
         public required string ConfirmPassword { get; set; }
         [AllowedValues("Admin", "Manager", "Employee")]
         public string Role { get; set; } = "Employee";
-        public uint? ManagerId { get; set; }
+        public string? ManagerId { get; set; }
     }
 }

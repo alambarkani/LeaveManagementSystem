@@ -5,8 +5,10 @@ using System.Text;
 
 namespace LeaveManagementSystem.Application.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserService
     {
-        Task CreateAsync(CreateUserRequest user);
+        Task CreateUserAsync(CreateUserRequest request);
+        Task<List<UserResponse>> GetAllUsersAsync();
+        Task<UserResponse> GetUserById(string id);
     }
 }

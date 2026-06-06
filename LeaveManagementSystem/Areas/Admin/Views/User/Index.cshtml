@@ -1,0 +1,33 @@
+﻿@model IEnumerable<UserListViewModel>
+@{
+
+    ViewData["Title"] = "Users";
+}
+
+<table>
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Username</th>
+            <th>Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            var num = 1;
+        }
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@num</td>
+                <td>@user.FullName</td>
+                <td>@user.Email</td>
+                <td>@user.UserName</td>
+                <td>@user.Role</td>
+            </tr>
+            num++;
+        }
+    </tbody>
+</table>

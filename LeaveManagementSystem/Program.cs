@@ -1,7 +1,11 @@
+using LeaveManagementSystem.Application.Interfaces;
+using LeaveManagementSystem.Application.Services;
 using LeaveManagementSystem.Domain.Entities;
+using LeaveManagementSystem.Domain.Interfaces;
 using LeaveManagementSystem.Infrastructure.Data;
 using LeaveManagementSystem.Infrastructure.Identity;
 using LeaveManagementSystem.Infrastructure.Persistence.Seeders;
+using LeaveManagementSystem.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,10 +21,14 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-// Program.cs atau extension method
+
+// Seeders
 builder.Services.AddScoped<RoleSeeder>();
 builder.Services.AddScoped<UserSeeder>();
 builder.Services.AddScoped<DatabaseSeeder>();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
@@ -48,6 +56,12 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
+app.MapAreaControllerRoute(
+    name: "Admin",
+    areaName: "Admin",
+    pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}")
+    .WithStaticAssets();
 
 app.MapControllerRoute(
     name: "default",

@@ -1,19 +1,17 @@
-﻿using LeaveManagementSystem.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Data;
-using System.Text;
 
-namespace LeaveManagementSystem.Application.DTOs.UserDTO
+namespace LeaveManagementSystem.Areas.Admin.Models
 {
-    public class CreateUserRequest
+    public class UserListViewModel
     {
+        public required string Id { get; set; }
         public required string FullName { get; set; }
         public required string UserName { get; set; }
+        [EmailAddress]
+        [DataType(DataType.EmailAddress)]
         public required string Email { get; set; }
-        public required string Password { get; set; }
+        [AllowedValues("Admin", "Manager", "Employee")]
         public string Role { get; set; } = "Employee";
         public string? ManagerId { get; set; }
     }
