@@ -1,7 +1,10 @@
 ﻿using LeaveManagementSystem.Application.DTOs.UserDTO;
 using LeaveManagementSystem.Application.Interfaces;
 using LeaveManagementSystem.Areas.Admin.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace LeaveManagementSystem.Areas.Admin.Controllers
 {
@@ -23,9 +26,18 @@ namespace LeaveManagementSystem.Areas.Admin.Controllers
             return View(userList);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            await PopulateRolesAndManagersAsync();
             return View();
+        }
+
+        private async Task PopulateRolesAndManagersAsync()
+        {
+            var roles = await userService.GetAvailableRolesAsync();
+            ViewBag.Roles = new SelectList(roles);
+            var managers = await userService.GetAllManagersAsync();
+            ViewBag.Managers = new SelectList(managers, "Id", "FullName");
         }
 
         [HttpPost]
@@ -34,8 +46,12 @@ namespace LeaveManagementSystem.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
+                await PopulateRolesAndManagersAsync();
                 return View(model);
             }
+            
+
+
             // Call the service to create the user
             var user = new CreateUserRequest
             {

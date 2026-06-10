@@ -24,6 +24,20 @@ namespace LeaveManagementSystem.Application.Services
             await userRepo.CreateAsync(user);
         }
 
+        public async Task<List<UserResponse>> GetAllManagersAsync()
+        {
+            var managers = await userRepo.GetAllManagersAsync();
+            return [..managers.Select(m => new UserResponse
+            {
+                Id = m.Id,
+                FullName = m.FullName,
+                Email = m.Email,
+                UserName = m.UserName,
+                Role = m.Role,
+                ManagerId = m.ManagerId
+            })];
+        }
+
         public async Task<List<UserResponse>> GetAllUsersAsync()
         {
             var users = await userRepo.GetAllAsync();
@@ -36,6 +50,11 @@ namespace LeaveManagementSystem.Application.Services
                 Role = u.Role,
                 ManagerId = u.ManagerId
             })];
+        }
+
+        public async Task<List<string?>> GetAvailableRolesAsync()
+        {
+            return await userRepo.GetAvailableRolesAsync();
         }
 
         public async Task<UserResponse> GetUserById(string id)

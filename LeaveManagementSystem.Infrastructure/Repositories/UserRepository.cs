@@ -10,7 +10,7 @@ using System.Text;
 
 namespace LeaveManagementSystem.Infrastructure.Repositories
 {
-    public class UserRepository(UserManager<ApplicationUser> userManager) : IUserRepository
+    public class UserRepository(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager) : IUserRepository
     {
         public async Task CreateAsync(User user)
         {
@@ -48,6 +48,30 @@ namespace LeaveManagementSystem.Infrastructure.Repositories
                 UpdatedAt = u.UpdatedAt,
                 DeletedAt = u.DeletedAt
             })];
+        }
+
+        public async Task<List<User>> GetAllManagersAsync()
+        {
+            var managers = await userManager.GetUsersInRoleAsync("Manager");
+            return [.. managers.Select(m => new User
+            {
+                Id = m.Id,
+                FullName = m.FullName,
+                Email = m.Email ?? "",
+                UserName = m.UserName ?? "",
+                Role = "Manager",
+                Password = string.Empty,
+                ManagerId = null,
+                CreatedAt = m.CreatedAt,
+                UpdatedAt = m.UpdatedAt,
+                DeletedAt = m.DeletedAt
+            })];
+        }
+
+        public async Task<List<string?>> GetAvailableRolesAsync()
+        {
+            var roles = await roleManager.Roles.Select(r => r.Name).ToListAsync();
+            return roles;
         }
 
         public async Task<User> GetUserById(string id)

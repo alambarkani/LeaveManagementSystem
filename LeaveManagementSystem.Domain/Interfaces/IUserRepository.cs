@@ -10,5 +10,7 @@ namespace LeaveManagementSystem.Domain.Interfaces
         Task CreateAsync(User user);
         Task<List<User>> GetAllAsync();
         Task<User> GetUserById(string id);
+        Task<List<string?>> GetAvailableRolesAsync();
+        Task<List<User>> GetAllManagersAsync();
     }
 }

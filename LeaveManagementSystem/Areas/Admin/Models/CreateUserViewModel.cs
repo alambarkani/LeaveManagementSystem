@@ -1,4 +1,5 @@
 ﻿using LeaveManagementSystem.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
@@ -23,6 +24,8 @@ namespace LeaveManagementSystem.Areas.Admin.Models
         [StringLength(255)]
         [PasswordPropertyText]
         [DataType(DataType.Password)]
+        [MinLength(6)]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).+$", ErrorMessage = "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.")]
         public required string Password { get; set; }
         [Required]
         [DataType(DataType.Password)]
